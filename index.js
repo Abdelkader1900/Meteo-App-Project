@@ -1,6 +1,7 @@
 const btnsearch = document.getElementById("search");
 const city = document.getElementById("city");
 const result = document.getElementById("result");
+const btnreset = document.getElementById("reset");
 
 
 function fetched(){
@@ -11,22 +12,28 @@ function fetched(){
     .then(latlon => { 
         const lat = latlon.results[0].latitude
         const lon = latlon.results[0].longitude
-        document.getElementById("result1").value = "latitude : " +lat ;
-         document.getElementById("result2").value = " longitude :" + lon ;
+        document.getElementById("result1").value = "Latitude : " +lat ;
+         document.getElementById("result2").value = "Longitude :" + lon ;
         
-        return fetch("https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&current=temperature_2m");
+        return fetch("https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&current=temperature_2m&current=relative_humidity_2m");
     })
     .then(res => res.json())
     .then(data => {
         console.log(data.current.temperature_2m)
         document.getElementById("result3").value = "Temperature  : " +data.current.temperature_2m;
-            
-    });
+        document.getElementById("result4").value = "Humidity  : " +data.current.temperature_2m+"%";
+                });
+}
 
+function reset (){
+    document.getElementById("result1").value = "Latitude : ";
+    document.getElementById("result2").value = "Longitude : ";
+    document.getElementById("result3").value = "Temperature : ";
+    document.getElementById("result4").value = "Humidity : ";
 }
 
 btnsearch.addEventListener("click", fetched);
-
+btnreset.addEventListener("click", reset);
 
 
 
