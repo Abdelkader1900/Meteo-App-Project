@@ -21,7 +21,7 @@ function fetched(){
     .then(data => {
         console.log(data.current.temperature_2m)
         document.getElementById("result3").value = "Temperature  : " +data.current.temperature_2m;
-        document.getElementById("result4").value = "Humidity  : " +data.current.temperature_2m+"%";
+        document.getElementById("result4").value = "Humidity  : " +data.current.relative_humidity_2m+"%";
                 });
 }
 
