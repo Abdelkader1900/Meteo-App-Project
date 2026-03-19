@@ -16,7 +16,7 @@ function fetched(){
         document.getElementById("result1").value = "Latitude : " +lat ;
          document.getElementById("result2").value = "Longitude :" + lon ;
         
-        return fetch("https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&current=temperature_2m&current=relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min");
+        return fetch("https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&current=temperature_2m&current=relative_humidity_2m&daily=temperature_2m_max&forecast_days=4");
     })
     .then(res => res.json())
     .then(data => {
@@ -24,15 +24,23 @@ function fetched(){
         document.getElementById("result3").value = "Temperature  : " +data.current.temperature_2m;
         document.getElementById("result4").value = "Humidity  : " +data.current.relative_humidity_2m+"%";
         document.getElementById("forecast-container").innerHTML = "";
-        for (let i =0 ; i<4 ; i++){
+        for (let i =1 ; i<5 ; i++){
                 
-            const card = document.createElement("div"+i);
+            const card = document.createElement("div");
+            card.id = ("div"+i);
+            const titre = document.createElement("h2")
+            const texte = document.createElement("p")
             card.classList.add("day-card"); 
+            card.appendChild(titre);
+            card.appendChild(texte);
+            card.style.display = "flex";
+            card.style.flexDirection = "column";
+            titre.textContent = ("Day + "+i)
+            texte.textContent = data.daily.temperature_2m_max[i-1] + " °C";
             document.getElementById("forecast-container").appendChild(card);
         }
-            });
-
-    
+            })
+    .then(console.log(" ------------- Everything is OK ! ------------- "))
 }
 
 function reset (){
@@ -47,6 +55,3 @@ function reset (){
 
 btnsearch.addEventListener("click", fetched);
 btnreset.addEventListener("click", reset);
-
-
-
